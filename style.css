@@ -42,12 +42,15 @@
     transform: translate(-1500%);
     position: absolute;
 }
-/* .EnemyCars{
-    width: 50px;
-    height: 80px;
-    background-color: rgb(36, 223, 15);
-    align-items: center;
-    transform: translate(-500%);
+
+.score{
+    background-color: black;
+    color:white;
+    width: 200px;
+    height: 100px;
     position: absolute;
-    z-index: 1;
-} */
+    left: 0;
+    top: 0;
+    justify-content: center;
+    display: flex;
+}

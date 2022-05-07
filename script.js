@@ -2,6 +2,7 @@
 const score = document.querySelector('.score');
 const message = document.querySelector('.messageScreen');
 const road = document.querySelector('.road')
+const gameBody =document.querySelector('.gameBody');
 
 
 //game starts when messgae is clicked
@@ -11,6 +12,7 @@ message.addEventListener('click', startGame);
 //Data for Your vehicle
 let player = {
     speed: 5,
+    score:0
 };
 
 //When game is started
@@ -20,8 +22,13 @@ function startGame() {
     road.classList.remove('hiddenEl')
 
 
+
     //animation
     window.requestAnimationFrame(GamePlay);
+
+    //create scoreBox
+   let scoreValue = player.score;
+    
 
     //create div for car and append it into the road
     var car = document.createElement('div');
@@ -36,24 +43,76 @@ function startGame() {
 
         // roadLines.setAttribute('class', 'roadLines');
         roadLines.classList.add('roadLines');
-        roadLines.y=i*150;
+        roadLines.y = i * 150;
         roadLines.style.top = (i * 150) + 'px';
         road.appendChild(roadLines);
 
-      
+
+    }
+    //function to move the lines in the road
+    const movelines = () => {
+        let lines = document.querySelectorAll('.roadLines');
+        lines.forEach(function (Ele) {
+            //    conole.log(Ele.y);
+            Ele.y += player.speed;
+            Ele.style.top = Ele.y + 'px';
+
+            //repeating the lines
+            if (Ele.y >= 760) {
+                Ele.y -= 750;
+            }
+
+        })
     }
 
     //generate enemy vehicles and appen them to the road
     for (let i = 0; i < 4; i++) {
         var EnemyCars = document.createElement('div');
         EnemyCars.classList.add('EnemyCars', 'MyCar');
-        EnemyCars.y=i*150;
-        EnemyCars.style.top = (i * 200) + 'px';
+        EnemyCars.y = i * 300;
+
+
+        // EnemyCars.style.top = (i * 290) + 'px';
         road.appendChild(EnemyCars);
-        let Xpos = Math.round(Math.random()*250);
-        EnemyCars.style.backgroundColor ='rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
-        EnemyCars.style.left =Xpos +'px';
+        let Xpos = Math.round(Math.random() * 250);
+        EnemyCars.style.backgroundColor = 'rgb(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ')';
+        EnemyCars.style.left = Xpos + 'px';
+
     }
+
+    //function to move the enemy vehicles downward
+    const moveEnemy = () => {
+        let enemies = document.querySelectorAll('.EnemyCars');
+        enemies.forEach(function (enemy) {
+            // console.log(enemy.y);
+
+            // if(carCollision(car, enemy)){
+            //     console.log('GameOver');
+            // }
+
+            enemy.y += player.speed;
+            enemy.style.top = enemy.y + 'px';
+
+        //    console.log(carCollision(car,enemy));
+
+        //Checks the gameOver fucntion when collision occurs
+           if(carCollision(car,enemy)){
+            //    car.style.display='none';
+            road.classList.add('hiddenEl')
+            message.classList.remove('hiddenEl')
+           }
+
+            //repeating the enemyCar at random postition
+            if (enemy.y >= 800) {
+                enemy.y = -300;
+                let Xpos = Math.round(Math.random() * 250);
+                enemy.style.left = Xpos + 'px';
+
+            }
+
+        })
+    }
+
 
     //actual position of the vehicles assigned to player object
     player.X = car.offsetLeft;
@@ -63,11 +122,24 @@ function startGame() {
     //When the game is being played
     function GamePlay() {
 
-        //car movement function called
+        //Increasing score
+        scoreValue += 1;
+        score.innerHTML=`${scoreValue}`;
+
+        // console.log(`car Yoffset is: ${car.offsetTop}`);
+
+
+        //Your car movement function called
         carMovement(car);
+
+        //enemy vehicle movement
+        moveEnemy();
 
         //call function to Move the lines in the road to downward
         movelines();
+
+        //Car collision (game over)
+        
 
         //Game play repeating animation
         window.requestAnimationFrame(GamePlay);
@@ -77,21 +149,7 @@ function startGame() {
 }
 
 
-//function to move the lines in the road
-const movelines = () => {
-    let lines = document.querySelectorAll('.roadLines');
-    lines.forEach(function(Ele) {
-        console.log(Ele.y);
-        Ele.y += player.speed;
-        Ele.style.top = Ele.y + 'px';
 
-          //repeating the lines
-          if(Ele.y>=760){
-              Ele.y -=750;
-          }
-
-    })
-}
 
 
 //Car movement and wallDetecting handler
@@ -99,7 +157,7 @@ const carMovement = (car) => {
 
 
     const roadData = road.getBoundingClientRect();
-    // console.log(player.X)
+    // .log(player.X)
     if (keys.ArrowUp && player.Y > 0) {
 
         player.Y += -player.speed;
@@ -123,6 +181,14 @@ const carMovement = (car) => {
 
 
 
+}
+
+//Game over function
+function carCollision(car, enemy){
+ let myCarData = car.getBoundingClientRect();
+ let enemyCarData = enemy.getBoundingClientRect();
+// return !((myCarData.bottom < enemyCarData.top) || (myCarData.top > enemyCarData.bottom ) || (myCarData.left < enemyCarData.right) || (myCarData.right > enemyCarData.left))
+return !((myCarData.top > enemyCarData.bottom) || (myCarData.left > enemyCarData.right) || (myCarData.right < enemyCarData.left) || (myCarData.bottom < enemyCarData.top))
 }
 
 
