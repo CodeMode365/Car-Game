@@ -1,85 +1,121 @@
+//refrences 
 const score = document.querySelector('.score');
 const message = document.querySelector('.messageScreen');
 const road = document.querySelector('.road')
-// const MyCar = document.querySelector('.MyCar');
 
+
+//game starts when messgae is clicked
 message.addEventListener('click', startGame);
 
+
+//Data for Your vehicle
 let player = {
     speed: 5,
-    X: 0,
-    Y: 0,
 };
 
-
+//When game is started
 function startGame() {
+    //hides the message and unhides the road 
     message.classList.add('hiddenEl')
     road.classList.remove('hiddenEl')
+
+
+    //animation
     window.requestAnimationFrame(GamePlay);
+
+    //create div for car and append it into the road
     var car = document.createElement('div');
     car.innerText = 'car';
     car.classList.add('Mycar')
     road.appendChild(car)
 
+
+    //create roadlines and append it into the road
+    for (let i = 0; i < 30; i++) {
+        var roadLines = document.createElement('div');
+
+        // roadLines.setAttribute('class', 'roadLines');
+        roadLines.classList.add('roadLines');
+        roadLines.y=i*150;
+        roadLines.style.top = (i * 150) + 'px';
+        road.appendChild(roadLines);
+
+      
+    }
+
+
+    //actual position of the vehicles assigned to player object
     player.X = car.offsetLeft;
     player.Y = car.offsetTop;
 
-    function GamePlay() {
-        wallHandler(car);
-        carMovement(car);
-        window.requestAnimationFrame(GamePlay);
 
+    //When the game is being played
+    function GamePlay() {
+
+        //car movement function called
+        carMovement(car);
+
+        //call function to Move the lines in the road to downward
+        movelines();
+
+        //Game play repeating animation
+        window.requestAnimationFrame(GamePlay);
 
     }
 
 }
 
+
+//function to move the lines in the road
+const movelines = () => {
+    let lines = document.querySelectorAll('.roadLines');
+    lines.forEach(function(Ele) {
+        console.log(Ele.y);
+        Ele.y += player.speed;
+        Ele.style.top = Ele.y + 'px';
+
+          //repeating the lines
+          if(Ele.y>=760){
+              Ele.y -=750;
+          }
+
+    })
+}
+
+
+//Car movement and wallDetecting handler
 const carMovement = (car) => {
-    if (keys.ArrowUp) {
+
+
+    const roadData = road.getBoundingClientRect();
+    // console.log(player.X)
+    if (keys.ArrowUp && player.Y > 0) {
 
         player.Y += -player.speed;
         car.style.top = player.Y + 'px';
-
-
     }
-    if (keys.ArrowDown) {
+
+    if (keys.ArrowDown && player.Y < (roadData.height - 50)) {
         player.Y += player.speed;
         car.style.top = player.Y + 'px';
     }
-    if (keys.ArrowLeft) {
+
+    if (keys.ArrowLeft && player.X > 0) {
         player.X += -player.speed;
         car.style.left = player.X + 'px';
     }
-    if (keys.ArrowRight) {
+
+    if (keys.ArrowRight && player.X < (roadData.width - 50)) {
         player.X += player.speed;
         car.style.left = player.X + 'px';
     }
+
+
+
 }
 
 
-/*
-const wallHandler = (car) => {
-    let carData = {
-        width: 60,
-        height: 50
-    }
-    const roadData = road.getBoundingClientRect();
-    // console.log(car.offsetLeft)
-    // console.log(roadData)
-    console.log (roadData.width)
-    // console.log(typeof (car.offsetLeft + carData.width))
-    if (car.offsetLeft+carData.width >= roadData.width) {
-    console.log('misson pass')
-    car.style.left=roadData.width-carData.width +'px';
-    }
-
-    
-    
-}
-*/
-
-
-
+//Object for when key is pressed
 let keys = {
     ArrowUp: false,
     ArrowDown: false,
@@ -89,19 +125,22 @@ let keys = {
 
 
 
-
+//Changes the value of the key object to true when pressed
 const KeyPressed = (e) => {
     e.preventDefault();
     keys[e.key] = true;
-    // console.log(e.code)
 }
 
+
+//Changes the value of the key object to false when pressed
 const KeyNotPressed = (e) => {
     keys[e.key] = false;
 
 
 }
 
+
+//Event listener when key is pressed and released
 document.addEventListener('keydown', KeyPressed);
 document.addEventListener('keyup', KeyNotPressed);
 

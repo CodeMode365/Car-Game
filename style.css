@@ -32,5 +32,13 @@
     position: absolute;
     bottom: 20px;
     left: 40%;
-    /* transform: translateY(-500px); */
+    z-index: 1;
+}
+.roadLines{
+    width: 10px;
+    height: 80px;
+    background-color: white;
+    align-items: center;
+    transform: translate(-1500%);
+    position: absolute;
 }
