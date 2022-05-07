@@ -43,6 +43,17 @@ function startGame() {
       
     }
 
+    //generate enemy vehicles and appen them to the road
+    for (let i = 0; i < 4; i++) {
+        var EnemyCars = document.createElement('div');
+        EnemyCars.classList.add('EnemyCars', 'MyCar');
+        EnemyCars.y=i*150;
+        EnemyCars.style.top = (i * 200) + 'px';
+        road.appendChild(EnemyCars);
+        let Xpos = Math.round(Math.random()*250);
+        EnemyCars.style.backgroundColor ='rgb('+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+','+Math.round(Math.random()*255)+')';
+        EnemyCars.style.left =Xpos +'px';
+    }
 
     //actual position of the vehicles assigned to player object
     player.X = car.offsetLeft;

@@ -24,7 +24,7 @@
     position: absolute;
     display: ;
 }
-.Mycar {
+.Mycar, .EnemyCars {
     width: 50px;
     height: 50px;
     background-color: red;
@@ -42,3 +42,12 @@
     transform: translate(-1500%);
     position: absolute;
 }
+/* .EnemyCars{
+    width: 50px;
+    height: 80px;
+    background-color: rgb(36, 223, 15);
+    align-items: center;
+    transform: translate(-500%);
+    position: absolute;
+    z-index: 1;
+} */
