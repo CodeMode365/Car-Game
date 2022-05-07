@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.hiddenEl{
+    display: none;
+}
+.gameBody{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    height: 100vh;
+    width: 100wv;
+    overflow:hidden;
+}
+.road{
+    height:100vh;
+    background-color: #2c3e50;
+    align-items: center;
+    padding-left:300px;
+    position: absolute;
+    display: ;
+}
+.Mycar {
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border: 2px solid green;
+    position: absolute;
+    bottom: 20px;
+    left: 40%;
+    /* transform: translateY(-500px); */
+}
