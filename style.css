@@ -4,9 +4,10 @@
     overflow: hidden;
     box-sizing: border-box;
 }
-.hiddenEl{
+/* .hiddenEl{
     display: none;
-}
+    visibility: hidden; *
+} */
 .gameBody{
     display: flex;
     justify-content: center;
@@ -32,7 +33,7 @@
     position: absolute;
     bottom: 20px;
     left: 40%;
-    z-index: 1;
+    z-index: 2;
 }
 .roadLines{
     width: 10px;
@@ -44,13 +45,44 @@
 }
 
 .score{
-    background-color: black;
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: rgb(9, 143, 11);
     color:white;
     width: 200px;
-    height: 100px;
+    height: 50px;
     position: absolute;
     left: 0;
     top: 0;
     justify-content: center;
     display: flex;
+    font-size: 2rem;
+    line-height: 45px;
+    box-shadow: 3px 10px 35px 10px black;
+    
+}
+.score::before{
+    content: 'Score:';
+}
+
+.messageScreen{
+    cursor:pointer;
+    position: absolute;
+    z-index: 3;
+    background-color: yellow;
+    border: 3px solid green;
+    width: 330px;
+    height: 120px;
+    font-family: cursive;
+    font-size: 16px;
+    line-height: 35px;
+    display: flex;
+    text-align: center;
+
+}
+.gameBody{
+    background-image: url(back.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }

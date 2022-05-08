@@ -2,7 +2,8 @@
 const score = document.querySelector('.score');
 const message = document.querySelector('.messageScreen');
 const road = document.querySelector('.road')
-const gameBody =document.querySelector('.gameBody');
+const gameBody = document.querySelector('.gameBody');
+
 
 
 //game starts when messgae is clicked
@@ -12,14 +13,18 @@ message.addEventListener('click', startGame);
 //Data for Your vehicle
 let player = {
     speed: 5,
-    score:0
+    score: 0
 };
+
+//value To start/stop the game
 
 //When game is started
 function startGame() {
+    var gameValue = true;
+
     //hides the message and unhides the road 
-    message.classList.add('hiddenEl')
-    road.classList.remove('hiddenEl')
+    message.style.display = 'none';
+    road.innerHTML='';
 
 
 
@@ -27,8 +32,8 @@ function startGame() {
     window.requestAnimationFrame(GamePlay);
 
     //create scoreBox
-   let scoreValue = player.score;
-    
+    let scoreValue = player.score;
+
 
     //create div for car and append it into the road
     var car = document.createElement('div');
@@ -49,6 +54,7 @@ function startGame() {
 
 
     }
+
     //function to move the lines in the road
     const movelines = () => {
         let lines = document.querySelectorAll('.roadLines');
@@ -84,23 +90,20 @@ function startGame() {
     const moveEnemy = () => {
         let enemies = document.querySelectorAll('.EnemyCars');
         enemies.forEach(function (enemy) {
-            // console.log(enemy.y);
 
-            // if(carCollision(car, enemy)){
-            //     console.log('GameOver');
-            // }
-
+            
             enemy.y += player.speed;
             enemy.style.top = enemy.y + 'px';
 
-        //    console.log(carCollision(car,enemy));
 
-        //Checks the gameOver fucntion when collision occurs
-           if(carCollision(car,enemy)){
-            //    car.style.display='none';
-            road.classList.add('hiddenEl')
-            message.classList.remove('hiddenEl')
-           }
+            //Checks the gameOver fucntion when collision occurs
+            if (carCollision(car, enemy)) {
+                gameValue = false;
+                // message.classList.remove('hiddenEl')
+                message.style.display = 'flex';
+
+
+            }
 
             //repeating the enemyCar at random postition
             if (enemy.y >= 800) {
@@ -124,9 +127,8 @@ function startGame() {
 
         //Increasing score
         scoreValue += 1;
-        score.innerHTML=`${scoreValue}`;
+        score.innerHTML = `${scoreValue}`;
 
-        // console.log(`car Yoffset is: ${car.offsetTop}`);
 
 
         //Your car movement function called
@@ -139,11 +141,14 @@ function startGame() {
         movelines();
 
         //Car collision (game over)
-        
+
 
         //Game play repeating animation
-        window.requestAnimationFrame(GamePlay);
+        if (gameValue) {
+            console.log(gameValue)
 
+            window.requestAnimationFrame(GamePlay);
+        }
     }
 
 }
@@ -184,12 +189,17 @@ const carMovement = (car) => {
 }
 
 //Game over function
-function carCollision(car, enemy){
- let myCarData = car.getBoundingClientRect();
- let enemyCarData = enemy.getBoundingClientRect();
-// return !((myCarData.bottom < enemyCarData.top) || (myCarData.top > enemyCarData.bottom ) || (myCarData.left < enemyCarData.right) || (myCarData.right > enemyCarData.left))
-return !((myCarData.top > enemyCarData.bottom) || (myCarData.left > enemyCarData.right) || (myCarData.right < enemyCarData.left) || (myCarData.bottom < enemyCarData.top))
+function carCollision(car, enemy) {
+    let myCarData = car.getBoundingClientRect();
+    let enemyCarData = enemy.getBoundingClientRect();
+    // return !((myCarData.bottom < enemyCarData.top) || (myCarData.top > enemyCarData.bottom ) || (myCarData.left < enemyCarData.right) || (myCarData.right > enemyCarData.left))
+    return !((myCarData.top > enemyCarData.bottom) || (myCarData.left > enemyCarData.right) || (myCarData.right < enemyCarData.left) || (myCarData.bottom < enemyCarData.top))
 }
+
+
+
+
+
 
 
 //Object for when key is pressed
