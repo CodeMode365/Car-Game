@@ -24,7 +24,7 @@ function startGame() {
 
     //hides the message and unhides the road 
     message.style.display = 'none';
-    road.innerHTML='';
+    road.innerHTML = '';
 
 
 
@@ -37,7 +37,6 @@ function startGame() {
 
     //create div for car and append it into the road
     var car = document.createElement('div');
-    car.innerText = 'car';
     car.classList.add('Mycar')
     road.appendChild(car)
 
@@ -81,7 +80,10 @@ function startGame() {
         // EnemyCars.style.top = (i * 290) + 'px';
         road.appendChild(EnemyCars);
         let Xpos = Math.round(Math.random() * 250);
-        EnemyCars.style.backgroundColor = 'rgb(' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ',' + Math.round(Math.random() * 255) + ')';
+        let hexX = Math.round(Math.random() * 255).toString(16);
+        let hexY = Math.round(Math.random() * 255).toString(16);
+        let hexZ = Math.round(Math.random() * 255).toString(16);
+        EnemyCars.style.backgroundColor = '#' + hexX + hexY + hexZ;
         EnemyCars.style.left = Xpos + 'px';
 
     }
@@ -91,7 +93,7 @@ function startGame() {
         let enemies = document.querySelectorAll('.EnemyCars');
         enemies.forEach(function (enemy) {
 
-            
+
             enemy.y += player.speed;
             enemy.style.top = enemy.y + 'px';
 
@@ -99,8 +101,14 @@ function startGame() {
             //Checks the gameOver fucntion when collision occurs
             if (carCollision(car, enemy)) {
                 gameValue = false;
-                // message.classList.remove('hiddenEl')
+
+                //sets game over message Style
                 message.style.display = 'flex';
+                message.style.paddingLeft = 70 + 'px';
+                message.style.fontSize = 20 + 'px';
+                message.style.lineHeight = 35 + 'px';
+                message.innerHTML = `Game over <br> Your final score is ${scoreValue} <br> click to play again..`
+
 
 
             }
@@ -124,6 +132,7 @@ function startGame() {
 
     //When the game is being played
     function GamePlay() {
+        
 
         //Increasing score
         scoreValue += 1;
@@ -140,12 +149,10 @@ function startGame() {
         //call function to Move the lines in the road to downward
         movelines();
 
-        //Car collision (game over)
 
 
-        //Game play repeating animation
+        //Game play repeating animation if gameValue is true
         if (gameValue) {
-            console.log(gameValue)
 
             window.requestAnimationFrame(GamePlay);
         }

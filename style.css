@@ -4,10 +4,7 @@
     overflow: hidden;
     box-sizing: border-box;
 }
-/* .hiddenEl{
-    display: none;
-    visibility: hidden; *
-} */
+
 .gameBody{
     display: flex;
     justify-content: center;
@@ -23,17 +20,37 @@
     align-items: center;
     padding-left:300px;
     position: absolute;
-    display: ;
+    border-right: 7px dashed rgb(247, 247, 247);
+    border-left: 7px dashed rgb(255, 255, 255);
+
 }
 .Mycar, .EnemyCars {
     width: 50px;
-    height: 50px;
-    background-color: red;
+    height: 70px;
     border: 2px solid green;
     position: absolute;
     bottom: 20px;
     left: 40%;
     z-index: 2;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    box-shadow: 0 15px 15px 5px rgb(244, 28, 24);
+    
+
+}
+.Mycar::before, .EnemyCars::before{
+    content: '';
+    width: 15px;
+    background-color: white;
+    position: absolute;
+    height: 15px;
+}.Mycar::after, .EnemyCars::after{
+    content: '';
+    width: 15px;
+    background-color: white;
+    position: absolute;
+    height: 15px;
+    right: 0;
 }
 .roadLines{
     width: 10px;
@@ -42,6 +59,7 @@
     align-items: center;
     transform: translate(-1500%);
     position: absolute;
+    display: none;
 }
 
 .score{
@@ -76,8 +94,8 @@
     font-family: cursive;
     font-size: 16px;
     line-height: 35px;
-    display: flex;
     text-align: center;
+   
 
 }
 .gameBody{
@@ -85,4 +103,12 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-blend-mode: darken;
+}
+
+.Mycar{
+    border: 3px solid blue;
+    box-shadow: 0 15px 15px 5px blue !important;  
+    background-color: red;
+
 }
